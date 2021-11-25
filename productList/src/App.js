@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import Header from './components/Header';
-import Input from './components/Input';
+import Header from './components/HeaderComponent/Header';
+import Input from './components/InputComponent/Input';
 import List from './components/List';
 
 const App = () => {

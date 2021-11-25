@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
-import styles from './Input.style';
+import {Text, TouchableOpacity, View} from 'react-native';
+import CustomInput from '../CustomInput/CustomInput';
+import styles from './Input.style'
 
 const Input = ({SaveProduct}) => {
   const [nameText, setNameText] = useState('');
@@ -12,23 +13,22 @@ const Input = ({SaveProduct}) => {
     setNameText('');
     setPrice('');
   };
+
+ 
+
+
   return (
     <View style={styles.container}>
       <View style={styles.inner_container}>
         <Text style={styles.text}>Name</Text>
-        <TextInput
-          style={styles.input}
+        <CustomInput
           onChangeText={setNameText}
           value={nameText}
-          placeholder="Ürün adını giriniz..."
         />
         <Text style={styles.text}>Price</Text>
-
-        <TextInput
-          style={styles.input}
+        <CustomInput
           onChangeText={setPrice}
           value={price}
-          placeholder="Fiyatı giriniz.."
         />
         <TouchableOpacity style={styles.button} onPress={handleClick}>
           <Text style={styles.button_text}>Add</Text>

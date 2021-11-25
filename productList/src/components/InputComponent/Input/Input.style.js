@@ -15,14 +15,6 @@ export default StyleSheet.create({
   button_text: {
     color: 'white',
   },
-  input: {
-    backgroundColor: 'lightgray',
-    padding: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    marginLeft: 2,
-    marginRight: 2,
-  },
   button: {
     marginTop: 5,
     padding: 3,
