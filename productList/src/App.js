@@ -1,103 +1,79 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import styles from './App.style'
+import styles from './App.style';
 
 import Header from './components/HeaderComponent/Header';
-import Input from './components/InputComponent/Input';
 import List from './components/List';
+import Input from './components/InputComponent/Input';
 
 const App = () => {
   const [product, setProduct] = useState([]);
 
-  const [sortedProduct, setSortedProduct] = useState({
-    increasing: [],
-    decreasing: [],
-    date: [],
+  const [isActive, setIsActive] = useState({
+    isIncreasing: false,
+    isDecreasing: false,
+    isDate: true,
   });
-  const [boolean, setBoolean] = useState({
-    productBoolen: true,
-    increasedBoolen: false,
-    decreasingBoolen: false,
-    dateBoolen: false,
-  });
-  const {increasingBoolen} = boolean;
-  const {decreasingBoolen} = boolean;
-  const {dateBoolen} = boolean;
-  const {productBoolen} = boolean;
 
-  const {increasing} = sortedProduct;
-  const {decreasing} = sortedProduct;
-  const {date} = sortedProduct;
+  const {isIncreasing} = isActive;
+  const {isDecreasing} = isActive;
+  const {isDate} = isActive;
 
-
-  const SaveProduct = (nameText, price) => {
+  const SaveProduct = (name, price) => {
     const newProduct = {
-      id: Date.now(),
-      title: nameText,
+      name,
       price,
+      id: Date.now(),
     };
     setProduct([...product, newProduct]);
   };
 
-
-  const handleIncreasingButton = () => {
-    const newProduct = product.sort(
-      (a, b) => parseFloat(a.price) - parseFloat(b.price),
+  // Artan Fiyat butonuna basıldığında basılan butonu aktif diğer butonları pasif yapar ve Product arrayindeki elemanların price değerini büyükten küçüğe sıralar
+  const IncreasingButton = () => {
+    setIsActive({
+      isIncreasing: true,
+      isDecreasing: false,
+      isDate: false,
+    });
+    setProduct(
+      product.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)),
     );
-    setBoolean({
-      increasingBoolen: true,
-      decreasingBoolen: false,
-      dateBoolen: false,
-      productBoolen: false,
-    });
-    setSortedProduct({
-      increasing: newProduct,
-    });
   };
 
-  const handleDecreasingButton = () => {
-    const newProduct = product.sort(
-      (a, b) => parseFloat(b.price) - parseFloat(a.price),
+  // Azalan Fiyat butonuna basıldığında basılan butonu aktif diğer butonları pasif yapar ve Product arrayindeki elemanların price değerini küçükten büyüğe sıralar
+  const DecreasingButton = () => {
+    setIsActive({
+      isIncreasing: false,
+      isDecreasing: true,
+      isDate: false,
+    });
+    setProduct(
+      product.sort((a, b) => parseFloat(b.price) - parseFloat(a.price)),
     );
-    setBoolean({
-      increasingBoolen: false,
-      decreasingBoolen: true,
-      dateBoolen: false,
-      productBoolen: false,
-    });
-    setSortedProduct({
-      decreasing: newProduct,
-    });
   };
 
-  const handleDateButton = () => {
-    const newProduct = product.sort(
-      (a, b) => parseFloat(b.id) - parseFloat(a.id),
-    );
-    setBoolean({
-      increasingBoolen: false,
-      decreasingBoolen: false,
-      dateBoolen: true,
-      productBoolen: false,
+  // Tarih butonuna basıldığında basılan butonu aktif diğer butonları pasif yapar ve Product arrayindeki elemanları eklenilme tarihine göre sıralar
+  const DateButton = () => {
+    setIsActive({
+      isIncreasing: false,
+      isDecreasing: false,
+      isDate: true,
     });
-    setSortedProduct({
-      date: newProduct,
-    });
+    setProduct(product.sort((a, b) => parseFloat(b.id) - parseFloat(a.id)));
   };
 
+  // Product dizisine yeni eleman eklenince, eklenen elemanı hangi buton aktif ise ona göre product arrayini tekrardan sıralayıp uygun olduğu sıraya koyar
   useEffect(() => {
-    if (increasingBoolen) {
-      handleIncreasingButton();
-    } else if (decreasingBoolen) {
-      handleDecreasingButton();
+    if (isIncreasing) {
+      product.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    } else if (isDecreasing) {
+      product.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     } else {
-      handleDateButton();
+      product.sort((a, b) => parseFloat(b.id) - parseFloat(a.id));
     }
   }, [product]);
-  
 
   const renderSeperator = () => <View style={styles.seperator} />;
-
   const renderList = ({item}) => {
     return <List product={item} />;
   };
@@ -105,29 +81,19 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Header
-        increasingBoolen={increasingBoolen}
-        handleIncreasingButton= {handleIncreasingButton}
-        decreasingBoolen={decreasingBoolen}
-        handleDecreasingButton={handleDecreasingButton}
-        dateBoolen={dateBoolen}
-        handleDateButton={handleDateButton}
+        IncreasingButton={IncreasingButton}
+        DecreasingButton={DecreasingButton}
+        DateButton={DateButton}
+        isIncreasing={isIncreasing}
+        isDecreasing={isDecreasing}
+        isDate={isDate}
       />
-
       <FlatList
-        data={
-          productBoolen
-            ? product
-            : dateBoolen
-            ? date
-            : decreasingBoolen
-            ? decreasing
-            : increasing
-        }
+        data={product}
         renderItem={renderList}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={renderSeperator}
       />
-
       <Input SaveProduct={SaveProduct} />
     </View>
   );

@@ -4,13 +4,14 @@ import CustomInput from '../CustomInput/CustomInput';
 import styles from './Input.style'
 
 const Input = ({SaveProduct}) => {
-  const [nameText, setNameText] = useState('');
+  const [name, setName] = useState('');
   const [price, setPrice] = useState();
 
+
   const handleClick = () => {
-    if (nameText === '' || price === '') return;
-    SaveProduct(nameText, price);
-    setNameText('');
+    if (name === '' || !Number(price)) return;
+    SaveProduct(name, price);
+    setName('');
     setPrice('');
   };
   
@@ -19,8 +20,8 @@ const Input = ({SaveProduct}) => {
       <View style={styles.inner_container}>
         <Text style={styles.text}>Name</Text>
         <CustomInput
-          onChangeText={setNameText}
-          value={nameText}
+          onChangeText={setName}
+          value={name}
         />
         <Text style={styles.text}>Price</Text>
         <CustomInput

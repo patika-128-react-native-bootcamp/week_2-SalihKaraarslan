@@ -7,7 +7,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'space-between',
   },
-  text_title: {
+  text_name: {
     color: 'black',
     fontSize: 18,
   },

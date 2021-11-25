@@ -4,30 +4,31 @@ import styles from './Header.style';
 import CustomHeader from '../CustomHeader';
 
 const Header = ({
-  increasingBoolen,
-  handleIncreasingButton,
-  decreasingBoolen,
-  handleDecreasingButton,
-  dateBoolen,
-  handleDateButton,
+  IncreasingButton,
+  DecreasingButton,
+  DateButton,
+  isIncreasing,
+  isDecreasing,
+  isData,
 }) => {
+
   return (
     <View style={styles.container}>
       <CustomHeader
-        isActive={increasingBoolen}
-        onPress={handleIncreasingButton}
+        isActive={isIncreasing}
+        onPress={IncreasingButton}
         buttonTitle={'Artan Fiyat'}
       />
 
       <CustomHeader
-        isActive={decreasingBoolen}
-        onPress={handleDecreasingButton}
+        isActive={isDecreasing}
+        onPress={DecreasingButton}
         buttonTitle={'Azalan Fiyat'}
       />
 
       <CustomHeader
-        isActive={dateBoolen}
-        onPress={handleDateButton}
+        isActive={isData}
+        onPress={DateButton}
         buttonTitle={'Tarih'}
       />
     </View>
