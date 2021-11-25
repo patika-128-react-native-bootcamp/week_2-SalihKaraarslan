@@ -1,19 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'react-native';
+import styles from './App.style'
+
 import Header from './components/HeaderComponent/Header';
 import Input from './components/InputComponent/Input';
 import List from './components/List';
 
 const App = () => {
-  const [artans, setArtans] = useState([]);
-  const [azalans, setAzalans] = useState([]);
-  const [tarihs, setTarihs] = useState([]);
   const [product, setProduct] = useState([]);
 
-  const [productb, setProductb] = useState(true);
-  const [artanb, setArtanb] = useState(false);
-  const [azalanb, setAzalanb] = useState(false);
-  const [tarihb, setTarihb] = useState(false);
+  const [sortedProduct, setSortedProduct] = useState({
+    increasing: [],
+    decreasing: [],
+    date: [],
+  });
+  const [boolean, setBoolean] = useState({
+    productBoolen: true,
+    increasedBoolen: false,
+    decreasingBoolen: false,
+    dateBoolen: false,
+  });
+  const {increasingBoolen} = boolean;
+  const {decreasingBoolen} = boolean;
+  const {dateBoolen} = boolean;
+  const {productBoolen} = boolean;
+
+  const {increasing} = sortedProduct;
+  const {decreasing} = sortedProduct;
+  const {date} = sortedProduct;
+
 
   const SaveProduct = (nameText, price) => {
     const newProduct = {
@@ -23,70 +38,91 @@ const App = () => {
     };
     setProduct([...product, newProduct]);
   };
-  useEffect(() => {
-    if (artanb) {
-      artan();
-    } else if (azalanb) {
-      azalan();
-    } else {
-      tarih();
-    }
-  }, [product]);
 
-  const artan = () => {
+
+  const handleIncreasingButton = () => {
     const newProduct = product.sort(
       (a, b) => parseFloat(a.price) - parseFloat(b.price),
     );
-    setArtanb(true);
-    setAzalanb(false);
-    setTarihb(false);
-    setProductb(false);
-
-    setArtans(newProduct);
+    setBoolean({
+      increasingBoolen: true,
+      decreasingBoolen: false,
+      dateBoolen: false,
+      productBoolen: false,
+    });
+    setSortedProduct({
+      increasing: newProduct,
+    });
   };
 
-  const azalan = () => {
+  const handleDecreasingButton = () => {
     const newProduct = product.sort(
       (a, b) => parseFloat(b.price) - parseFloat(a.price),
     );
-    setAzalanb(true);
-    setArtanb(false);
-    setTarihb(false);
-    setProductb(false);
-
-    setAzalans(newProduct);
+    setBoolean({
+      increasingBoolen: false,
+      decreasingBoolen: true,
+      dateBoolen: false,
+      productBoolen: false,
+    });
+    setSortedProduct({
+      decreasing: newProduct,
+    });
   };
-  const tarih = () => {
+
+  const handleDateButton = () => {
     const newProduct = product.sort(
       (a, b) => parseFloat(b.id) - parseFloat(a.id),
     );
-
-    setTarihb(true);
-    setArtanb(false);
-    setAzalanb(false);
-    setProductb(false);
-
-    setTarihs(newProduct);
+    setBoolean({
+      increasingBoolen: false,
+      decreasingBoolen: false,
+      dateBoolen: true,
+      productBoolen: false,
+    });
+    setSortedProduct({
+      date: newProduct,
+    });
   };
+
+  useEffect(() => {
+    if (increasingBoolen) {
+      handleIncreasingButton();
+    } else if (decreasingBoolen) {
+      handleDecreasingButton();
+    } else {
+      handleDateButton();
+    }
+  }, [product]);
+  
+
+  const renderSeperator = () => <View style={styles.seperator} />;
 
   const renderList = ({item}) => {
     return <List product={item} />;
   };
-  const renderSeperator = () => <View style={styles.seperator} />;
 
   return (
     <View style={styles.container}>
       <Header
-        artan={artan}
-        azalan={azalan}
-        tarih={tarih}
-        artanb={artanb}
-        azalanb={azalanb}
-        tarihb={tarihb}
+        increasingBoolen={increasingBoolen}
+        handleIncreasingButton= {handleIncreasingButton}
+        decreasingBoolen={decreasingBoolen}
+        handleDecreasingButton={handleDecreasingButton}
+        dateBoolen={dateBoolen}
+        handleDateButton={handleDateButton}
       />
 
       <FlatList
-        data={productb ? product : tarihb ? tarihs : azalanb ? azalans : artans}
+        data={
+          productBoolen
+            ? product
+            : dateBoolen
+            ? date
+            : decreasingBoolen
+            ? decreasing
+            : increasing
+        }
         renderItem={renderList}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={renderSeperator}
@@ -98,15 +134,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    padding: 3,
-  },
-  seperator: {
-    borderWidth: 0.5,
-    borderColor: '#e0e0e0',
-  },
-});

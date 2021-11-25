@@ -13,10 +13,7 @@ const Input = ({SaveProduct}) => {
     setNameText('');
     setPrice('');
   };
-
- 
-
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.inner_container}>

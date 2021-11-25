@@ -1,29 +1,35 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import styles from './Header.style';
 import CustomHeader from '../CustomHeader';
 
-const Header = ({artan, azalan, tarih, artanb, azalanb, tarihb}) => {
+const Header = ({
+  increasingBoolen,
+  handleIncreasingButton,
+  decreasingBoolen,
+  handleDecreasingButton,
+  dateBoolen,
+  handleDateButton,
+}) => {
   return (
     <View style={styles.container}>
-      <View
-        style={
-          artanb ? {backgroundColor: 'gray'} : {backgroundColor: 'lightgray'}
-        }>
-        <CustomHeader onPress={artan} buttonTitle={'Artan Fiyat'} />
-      </View>
-      <View
-        style={
-          azalanb ? {backgroundColor: 'gray'} : {backgroundColor: 'lightgray'}
-        }>
-        <CustomHeader onPress={azalan} buttonTitle={'Azalan Fiyat'} />
-      </View>
-      <View
-        style={
-          tarihb ? {backgroundColor: 'gray'} : {backgroundColor: 'lightgray'}
-        }>
-        <CustomHeader onPress={tarih} buttonTitle={'Tarih'} />
-      </View>
+      <CustomHeader
+        isActive={increasingBoolen}
+        onPress={handleIncreasingButton}
+        buttonTitle={'Artan Fiyat'}
+      />
+
+      <CustomHeader
+        isActive={decreasingBoolen}
+        onPress={handleDecreasingButton}
+        buttonTitle={'Azalan Fiyat'}
+      />
+
+      <CustomHeader
+        isActive={dateBoolen}
+        onPress={handleDateButton}
+        buttonTitle={'Tarih'}
+      />
     </View>
   );
 };
