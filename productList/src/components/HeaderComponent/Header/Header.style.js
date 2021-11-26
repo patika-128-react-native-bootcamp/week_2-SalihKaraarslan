@@ -5,8 +5,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     margin: 5,
-
     padding: 5,
   },
-  
 });

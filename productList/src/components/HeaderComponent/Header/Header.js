@@ -11,7 +11,6 @@ const Header = ({
   isDecreasing,
   isData,
 }) => {
-
   return (
     <View style={styles.container}>
       <CustomHeader

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
 import styles from './App.style';
-
 import Header from './components/HeaderComponent/Header';
 import List from './components/List';
 import Input from './components/InputComponent/Input';
@@ -15,9 +14,7 @@ const App = () => {
     isDate: true,
   });
 
-  const {isIncreasing} = isActive;
-  const {isDecreasing} = isActive;
-  const {isDate} = isActive;
+  const {isIncreasing, isDecreasing, isDate} = isActive;
 
   const SaveProduct = (name, price) => {
     const newProduct = {

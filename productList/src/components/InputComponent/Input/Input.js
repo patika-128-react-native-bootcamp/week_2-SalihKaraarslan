@@ -7,7 +7,6 @@ const Input = ({SaveProduct}) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState();
 
-
   const handleClick = () => {
     if (name === '' || !Number(price)) return;
     SaveProduct(name, price);
